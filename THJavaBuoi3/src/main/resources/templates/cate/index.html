@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Category List</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet">
+  <th:block th:replace="layout::link-css"></th:block>
+</head>
+<body>
+<th:block th:replace="layout::header"></th:block>
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-4xl mb-4">Category list</h1>
+  <div sec:authorize = "hasAnyAuthority('CREATOR','ADMIN')">
+    <a href="/cates/new" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create New Category</a>
+  </div>
+
+  <table class="border-collapse border w-full mt-4">
+    <thead>
+    <tr>
+      <th class="p-2 bg-gray-200 border">ID</th>
+      <th class="p-2 bg-gray-200 border">Description</th>
+      <th class="p-2 bg-gray-200 border">Name</th>
+      <th class="p-2 bg-gray-200 border">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="cate : ${cates}">
+      <td class="p-2 border" th:text="${cate.id}">Book ID</td>
+      <td class="p-2 border" th:text="${cate.description}">Title</td>
+      <td class="p-2 border" th:text="${cate.name}">Author</td>
+      <td class="p-2 border">
+        <a th:href="@{/cates/edit/{id}(id=${cate.id})}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Edit</a>
+        <a th:href="@{/cates/delete/{id}(id=${cate.id})}" onclick="return confirm('Are you sure?')" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<th:block th:replace="layout::footer"></th:block>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <th:block th:replace="layout::link-css"></th:block>
+  <title>Edit</title>
+</head>
+<body>
+<th:block th:replace="layout::header"></th:block>
+<div class="container">
+  <h1>Edit</h1>
+  <br/>
+  <form th:action="@{/users/save}" th:object="${user}" method="post">
+
+    <div class="col-6 mb-3">
+      <input type="hidden" th:field="*{id}">
+      <label class="form-label" for="email">Email</label>
+      <input class="form-control" type="text" th:field="*{email}" id="email">
+    </div>
+    <div class="col-6 mb-3">
+      <label class="form-label" for="enabled">Enabled: </label>
+      <input class="form-control" type="text" th:field="*{enabled}" id="enabled">
+    </div>
+    <div class="col-6 mb-3">
+
+      <label class="form-label" for="password">Password</label>
+      <input class="form-control" type="text" th:field="*{password}" id="password">
+    </div>
+    <div class="col-6 mb-3">
+
+      <label class="form-label" for="username">Username</label>
+      <input class="form-control" type="text" th:field="*{username}" id="username">
+    </div>
+    <input type="submit" class="btn btn-primary" value = "Save">
+  </form>
+
+</div>
+</body>
+</html>

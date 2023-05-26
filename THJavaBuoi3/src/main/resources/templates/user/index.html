@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>My User List</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet">
+  <th:block th:replace="layout::link-css"></th:block>
+</head>
+<body>
+<th:block th:replace="layout::header"></th:block>
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-4xl mb-4">Category list</h1>
+  <div sec:authorize = "hasAnyAuthority('CREATOR','ADMIN')">
+    <a href="/users/new" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create New User</a>
+    </div>
+
+  <table class="border-collapse border w-full mt-4">
+    <thead>
+    <tr>
+      <th class="p-2 bg-gray-200 border">ID</th>
+      <th class="p-2 bg-gray-200 border">Email</th>
+      <th class="p-2 bg-gray-200 border">enabled</th>
+      <th class="p-2 bg-gray-200 border">username</th>
+      <th class="p-2 bg-gray-200 border">password</th>
+      <th class="p-2 bg-gray-200 border">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+      <td class="p-2 border" th:text="${user.id}">Book ID</td>
+      <td class="p-2 border" th:text="${user.email}">Title</td>
+      <td class="p-2 border" th:text="${user.enabled}">Author</td>
+      <td class="p-2 border" th:text="${user.username}">Title</td>
+      <td class="p-2 border" th:text="${user.password}">Title</td>
+      <td class="p-2 border">
+        <a th:href="@{/users/edit/{id}(id=${user.id})}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Edit</a>
+        <a th:href="@{/users/delete/{id}(id=${user.id})}" onclick="return confirm('Are you sure?')" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<th:block th:replace="layout::footer"></th:block>
+</body>
+</html>

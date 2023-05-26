@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My book list</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.15/dist/tailwind.min.css" rel="stylesheet">
+  <th:block th:replace="layout::link-css"></th:block>
+</head>
+<body>
+<th:block th:replace="layout::header"></th:block>
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-4xl mb-4">Book list</h1>
+  <div sec:authorize = "hasAnyAuthority('CREATOR','ADMIN')">
+    <a href="/books/new" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Create New Book</a>
+  </div>
+
+  <table class="border-collapse border w-full mt-4">
+    <thead>
+    <tr>
+      <th class="p-2 bg-gray-200 border">ID</th>
+      <th class="p-2 bg-gray-200 border">Title</th>
+      <th class="p-2 bg-gray-200 border">Author</th>
+      <th class="p-2 bg-gray-200 border">Price</th>
+      <th class="p-2 bg-gray-200 border">Category</th>
+      <th class="p-2 bg-gray-200 border">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${books}">
+      <td class="p-2 border" th:text="${book.id}">Book ID</td>
+      <td class="p-2 border" th:text="${book.title}">Title</td>
+      <td class="p-2 border" th:text="${book.author}">Author</td>
+      <td class="p-2 border" th:text="${book.price}">Price</td>
+      <td class="p-2 border" th:text="${book.category.name}">Category</td>
+      <td class="p-2 border">
+        <a th:href="@{/books/edit/{id}(id=${book.id})}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Edit</a>
+        <a th:href="@{/books/delete/{id}(id=${book.id})}" onclick="return confirm('Are you sure?')" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<th:block th:replace="layout::footer"></th:block>
+</body>
+</html>
